@@ -1,11 +1,17 @@
 const searchInput = document.getElementById("search-sec");
 const movieCont = document.getElementById("movie-container");
 const apiKey = "ccffd46e1cmsh08bed086b4dbc1bp18c5dcjsn5d7585849eb2";
+const maxRetries = 3;
 
-const fetchMovie = async (query) => {
+const fetchMovie = async (query = "romance", retryCount = 0) => {
+    query = query || "romance";
+    console.log("Fetching movies with query:", query);
+
     const apiUrl = `https://imdb-top-100-movies.p.rapidapi.com/?search=${encodeURIComponent(query)}`;
+    
     try {
         if (!query.trim()) {
+            movieCont.innerHTML = "<p>Please enter a search query.</p>";
             return;
         }
 
@@ -17,12 +23,23 @@ const fetchMovie = async (query) => {
             }
         });
 
+        if (response.status === 429) {
+            if (retryCount < maxRetries) {
+                const waitTime = Math.pow(2, retryCount) * 1000; 
+                console.log(`Rate limited. Retrying in ${waitTime / 1000} seconds...`);
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+                return fetchMovie(query, retryCount + 1); 
+            } else {
+                throw new Error('Rate limit exceeded. Please try again later.');
+            }
+        }
+
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log("API Response:", data);
 
         if (data && Array.isArray(data)) {
             let moviesHtml = '';
@@ -46,9 +63,10 @@ const fetchMovie = async (query) => {
         searchInput.value = '';
 
     } catch (error) {
-        console.error(error);
+        console.error("Error fetching movies:", error);
+        movieCont.innerHTML = `<p>Something went wrong: ${error.message}</p>`;
     }
-}
+};
 
 searchInput.addEventListener("keypress", (event) => {
     if (event.key === 'Enter') {
