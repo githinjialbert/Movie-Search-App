@@ -1,33 +1,18 @@
 body {
-    background-color: #0f2133;
-    color: rgb(194, 194, 194);
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    padding: 0;
+    font-family: Arial, sans-serif;
     margin: 0;
-}
-
-a {
-    text-decoration: none;
-    color: #c2c2c2;
-    font-weight: bold;
-    transition: color 0.3s ease;
-    margin-left: 15px;
-}
-
-a:hover {
-    color: #FFD700;
-    text-decoration: underline;
+    padding: 0;
+    color: whitesmoke;
+    background-color: #0f2133;
 }
 
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background-color: #333;
+    color: #fff;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo-nav {
@@ -36,28 +21,82 @@ header {
 }
 
 .logo-nav img {
-    height: 40px;
+    height: 50px;
+    margin-right: 20px;
 }
 
-nav.navigation {
-    display: flex;
-    align-items: center;
+.navigation a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.search-bar {
+    margin: 0 auto;
+    text-align: center;
 }
 
 .search-bar input {
+    width: 300px;
+    padding: 10px;
+    border-radius: 5px;
     border: none;
-    border-radius: 8px;
-    padding: 10px 15px;
-    width: 250px;
-    background-color: #0c355e;
-    font-size: 15px;
+    font-size: 16px;
 }
 
-.search-bar input::placeholder {
-    color: #ffffff;;
-}
-
-main {
-    flex: 1;
+#movie-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px; 
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.movie-item {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.movie-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.movie-item h2 {
+    font-size: 16px; 
+    margin: 10px 0;
+}
+
+.movie-item p {
+    font-size: 12px; 
+    margin: 5px 0;
+}
+
+.movie-item a {
+    display: inline-block;
+    margin: 10px;
+    padding: 8px 12px;
+    background-color: goldenrod;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.movie-item a:hover {
+    background-color: #FFD700;
+    color: black;
+}
+
+.movie-item:hover {
+    transform: scale(1.05);
 }
